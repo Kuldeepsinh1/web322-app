@@ -131,11 +131,12 @@ app.post("/posts/add", upload.single("featureImage"), (req, res) => {
   upload(req)
     .then((uploaded) => {
       req.body.featureImage = uploaded.url;
+      const date = new Date()
       let blogPost = {};
 
       blogPost.body = req.body.body;
       blogPost.title = req.body.title;
-      blogPost.postDate = Date.now();
+      blogPost.postDate = date.toLocaleDateString('en-ca');
       blogPost.category = req.body.category;
       blogPost.featureImage = req.body.featureImage;
       blogPost.published = req.body.published;
