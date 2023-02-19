@@ -135,7 +135,7 @@ app.post("/posts/add", upload.single("featureImage"), (req, res) => {
 
       blogPost.body = req.body.body;
       blogPost.title = req.body.title;
-      blogPost.postDate = Date.now();
+      blogPost.postDate = date.toJSON().slice(0,10);
       blogPost.category = req.body.category;
       blogPost.featureImage = req.body.featureImage;
       blogPost.published = req.body.published;
