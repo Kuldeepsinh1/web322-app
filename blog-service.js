@@ -51,7 +51,22 @@ function getPublishedPosts() {
         }
     });
 }
+function getPublishedPostsByCategory(category) {
+  return new Promise((resolve, reject) => {
+      let publishedPosts = [];
+      posts.forEach((post) => {
+          if (post.published == true && post.category == category) {
+              publishedPosts.push(post);
+          }
+      });
 
+      if (publishedPosts.length == 0) {
+          reject("No results returned");
+      } else {
+          resolve(publishedPosts);
+      }
+  });
+}
 function getCategories() {
     return new Promise((resolve, reject) => {
         if (categories.length == 0) {
@@ -62,18 +77,23 @@ function getCategories() {
     });
 }
 function addPost(postData) {
-    return new Promise((resolve, reject) => {
-      if (postData.published === undefined) {
-        postData.published = false;
-      } else {
-        postData.published = true;
-      }
-  
-      postData.id = posts.length + 1;
-      posts.push(postData);
-      resolve(postData);
-    });
-  }
+  return new Promise((resolve, reject) => {
+    if (postData.published === undefined) {
+      postData.published = false;
+    } else {
+      postData.published = true;
+    }
+
+    postData.id = posts.length + 1;
+    const date = new Date();
+    const formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
+    postData.postDate = formattedDate;
+    posts.push(postData);
+    resolve(postData);
+  });
+}
+
 
   function getPostsByMinDate(minDate) {
     return new Promise((resolve, reject) => {
